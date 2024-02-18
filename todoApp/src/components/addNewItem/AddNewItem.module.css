@@ -1,0 +1,29 @@
+/* -------formSection --------- */
+
+.formSection {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 10px;
+}
+.formSection input {
+	width: 100%;
+	margin-right: 10px;
+	border-radius: 5px;
+	border: 1px solid black;
+}
+.btnAddTask {
+	background-color: #fff;
+	width: 70px;
+	height: 35px;
+	border: solid 1px #3498db;
+	color: #3498db;
+	transition: background .3s, color .3s;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.btnAddTask:hover{
+	background-color: #3498db;
+	color: white;
+}
+

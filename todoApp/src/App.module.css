@@ -1,0 +1,48 @@
+.root {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.container {
+	width: 100%;
+	max-width: 400px;
+	min-width: 368px;
+	min-height: 250px;
+	background-color: #fff;
+	margin-top: 35px;
+	border-radius: 15px;
+	padding: 10px;
+}
+.headerTitle {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	/* border: 2px solid red; */
+	padding: 10px;
+	align-items: center;
+}
+.headerTitle h1 {
+	font-size: 30px;
+	font-weight: 700;
+}
+.headerTitle p {
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+}
+.btnAdd {
+	background-color: #3498db;
+	width: 50px;
+	height: 50px;
+	border: none;
+	border-radius: 50%;
+	color: white;
+	font-size: 30px;
+	transition: background 0.2s;
+}
+.btnAdd:hover {
+	cursor: pointer;
+	background-color: #3085be;
+}
