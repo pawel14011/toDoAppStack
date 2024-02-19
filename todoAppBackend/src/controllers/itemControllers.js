@@ -1,5 +1,5 @@
 
-const {Item,Kot} = require('../../models')
+const {Item} = require('../../models')
 
 
 let data = [
@@ -41,27 +41,20 @@ exports.changeItemDown = async (req, res) => {
 		const next = {...oldData[index + 1]} 
 		const now = {...oldData[index]}
 
-		oldData[index + 1].value = now.value
-		oldData[index].value = next.value
-		oldData[index + 1].finished = now.finished
-		oldData[index].finished = next.finished
 		
-		
-	
-		
-
-
-
-		for (let dat of oldData){
-			const add={
-				
-				value:dat.value,
-				finished:dat.finished
-			}
-			await Item.update(add,{where:{
-				id:dat.id
+			await Item.update({
+				value:next.value,
+				finished:next.finished
+			},{where:{
+				id:now.id
 			}})
-		}
+			await Item.update({
+				value:now.value,
+				finished:now.finished
+			},{where:{
+				id:next.id
+			}})
+		
 		
 		const resData = await Item.findAll();
 
@@ -82,28 +75,24 @@ exports.changeItemUp = async (req, res) => {
 	if (oldData[index - 1] !== undefined) {
 		const next = {...oldData[index - 1]} 
 		const now = {...oldData[index]}
-
-		oldData[index - 1].value = now.value
-		oldData[index].value = next.value
-		oldData[index - 1].finished = now.finished
-		oldData[index].finished = next.finished
-		
-		
+		await Item.update({
+			value:next.value,
+			finished:next.finished
+		},{where:{
+			id:now.id
+		}})
+		await Item.update({
+			value:now.value,
+			finished:now.finished
+		},{where:{
+			id:next.id
+		}})
 	
 		
 
 
 
-		for (let dat of oldData){
-			const add={
-				
-				value:dat.value,
-				finished:dat.finished
-			}
-			await Item.update(add,{where:{
-				id:dat.id
-			}})
-		}
+		
 		
 		const resData = await Item.findAll();
 
