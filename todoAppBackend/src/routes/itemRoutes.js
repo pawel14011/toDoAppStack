@@ -10,12 +10,12 @@ const changeFinishedItem = require('../controllers/itemControllers/changeFinishe
 
 const itemControllers = require('../controllers/itemControllers')
 
-
 router.get('/', itemControllers.getAllItems)
 router.post('/', itemControllers.addNewItem)
 router.post('/down/:index', itemControllers.changeItemDown)
 router.post('/up/:index', itemControllers.changeItemUp)
 router.delete('/:todoId', itemControllers.deleteItem)
 router.patch('/:todoId2', itemControllers.changeFinishedItem)
+
 
 module.exports = router
