@@ -1,5 +1,7 @@
 import { Sequelize, DataTypes } from 'sequelize'
 
+
+exports.config = (req, res) => async function () {
 //dane do połączenia z bazą
 const sequelize = new Sequelize('todoApp', 'root', 'lexus', {
 	host: 'localhost',
@@ -14,6 +16,8 @@ try {
 } catch (error) {
 	console.log('Brak polaczenia z bazą', error)
 }
+
+
 
 //zdefiniowanie modeli struktury tabel w bazie
 const Item = sequelize.define('Item', {
@@ -33,6 +37,7 @@ const Item = sequelize.define('Item', {
 	},
 })
 
+
 //synchronizacja modeli i struktur w bazie
 await sequelize
 	.sync()
@@ -44,7 +49,7 @@ await sequelize
 	})
 
 //tworzenie rekordów dla danego modelu
-
+}
 //rekord pierwszy
 await Item.create({
 	value: 'Zrob zakupy',
@@ -57,6 +62,8 @@ await Item.create({
 		console.log('Blad w saving to database:', error)
 	})
 
+
+
 //rekord drugi
 await Item.create({
 	value: 'Idz do fryziera',
@@ -68,9 +75,6 @@ await Item.create({
 	.catch(error => {
 		console.log('Blad w saving to database:', error)
 	})
-
-
-
 
     try {
         // ...
@@ -92,3 +96,4 @@ await Item.create({
 
 //zamkniecie połaćzenia
 await sequelize.close()
+		

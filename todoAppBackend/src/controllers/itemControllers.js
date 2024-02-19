@@ -1,3 +1,7 @@
+
+const {Item,Kot} = require('../../models')
+
+
 let data = [
 	{
 		value: 'pierwsze zadanie',
@@ -6,69 +10,122 @@ let data = [
 	},
 ]
 
-exports.addNewItem = (req, res) => {
+exports.addNewItem = async (req, res) => {
 	const item = req.body
-	data.push(item)
-	res.json(data)
-	res.status(200).end()
+	console.log(item);
+	await Item.create(item)
+	const resData = await Item.findAll();
+	res.status(200).send(resData).end()
 }
 
-exports.changeFinishedItem = (req, res) => {
+exports.changeFinishedItem = async (req, res) => {
 	const idItemTochange = req.params.todoId2
 	const propertyToChange = req.body
-
-	data = data.map(todo => {
-		if (todo.id == idItemTochange) {
-			changeObj = { ...todo, finished: propertyToChange.finished }
-			res.json(changeObj)
-			return changeObj
-		} else return todo
-	})
+	console.log(propertyToChange);
+	
+	await Item.update(propertyToChange,{where:{id:idItemTochange}})
+	
 	res.status(200).end()
 }
 
-exports.changeItemDown = (req, res) => {
+exports.changeItemDown = async (req, res) => {
 	const index = parseInt(req.params.index, 10)
-
+	
 	oldData = req.body
+	
+	
+	
 
-	const next = oldData[index + 1]
-	if (next !== undefined) {
-		oldData[index + 1] = oldData[index]
-		oldData[index] = next
+	
+	if (oldData[index + 1] !== undefined) {
+		const next = {...oldData[index + 1]} 
+		const now = {...oldData[index]}
 
-		data = oldData
+		oldData[index + 1].value = now.value
+		oldData[index].value = next.value
+		oldData[index + 1].finished = now.finished
+		oldData[index].finished = next.finished
+		
+		
+	
+		
 
-		res.json(data)
-		res.status(200).end()
+
+
+		for (let dat of oldData){
+			const add={
+				
+				value:dat.value,
+				finished:dat.finished
+			}
+			await Item.update(add,{where:{
+				id:dat.id
+			}})
+		}
+		
+		const resData = await Item.findAll();
+
+		res.status(200).send(resData).end()
 	} else {
-		res.json(data)
+		res.json(oldData )
 	}
 }
-exports.changeItemUp = (req, res) => {
+exports.changeItemUp = async (req, res) => {
 	const index = parseInt(req.params.index, 10)
-
+	
 	oldData = req.body
+	
+	
+	
 
-	const next = oldData[index - 1]
-	if (next !== undefined) {
-		oldData[index - 1] = oldData[index]
-		oldData[index] = next
+	
+	if (oldData[index - 1] !== undefined) {
+		const next = {...oldData[index - 1]} 
+		const now = {...oldData[index]}
 
-		data = oldData
+		oldData[index - 1].value = now.value
+		oldData[index].value = next.value
+		oldData[index - 1].finished = now.finished
+		oldData[index].finished = next.finished
+		
+		
+	
+		
 
-		res.json(data)
-		res.status(200).end()
+
+
+		for (let dat of oldData){
+			const add={
+				
+				value:dat.value,
+				finished:dat.finished
+			}
+			await Item.update(add,{where:{
+				id:dat.id
+			}})
+		}
+		
+		const resData = await Item.findAll();
+
+		res.status(200).send(resData).end()
 	} else {
-		res.json(data)
+		res.json(oldData )
 	}
 }
-exports.deleteItem = (req, res) => {
+exports.deleteItem = async(req, res) => {
 	const todoId = req.params.todoId
 
-	data = data.filter(todo => todo.id != todoId)
+	await Item.destroy({
+		where: {
+		  id: todoId
+		}
+	  });
+	
 	res.status(200).end()
 }
-exports.getAllItems = (req, res) => {
-	res.send(data)
+exports.getAllItems = async (req, res) =>{
+	
+	const resData = await Item.findAll();
+	
+	res.send(resData)
 }
