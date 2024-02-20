@@ -8,14 +8,11 @@ const changeItemUp = require('../controllers/itemControllers/changeItemUp')
 const deleteItem = require('../controllers/itemControllers/deleteItem')
 const changeFinishedItem = require('../controllers/itemControllers/changeFinishedItem')
 
-const itemControllers = require('../controllers/itemControllers')
-
-router.get('/', itemControllers.getAllItems)
-router.post('/', itemControllers.addNewItem)
-router.post('/down/:index', itemControllers.changeItemDown)
-router.post('/up/:index', itemControllers.changeItemUp)
-router.delete('/:todoId', itemControllers.deleteItem)
-router.patch('/:todoId2', itemControllers.changeFinishedItem)
-
+router.get('/', getAllItems.getAllItems)
+router.post('/', addNewItem.addNewItem)
+router.post('/down/:index', changeItemDown.changeItemDown)
+router.post('/up/:index', changeItemUp.changeItemUp)
+router.delete('/:todoId', deleteItem.deleteItem)
+router.patch('/:todoId2', changeFinishedItem.changeFinishedItem)
 
 module.exports = router

@@ -1,8 +1,8 @@
-let data = require('../../data/data');
+const { Item } = require('../../../models')
 
-exports.addNewItem = (req, res) => {
+exports.addNewItem = async (req, res) => {
 	const item = req.body
-	data.push(item)
-	res.json(data)
-	res.status(200).end()
+	await Item.create(item)
+	const resData = await Item.findAll()
+	res.status(200).send(resData).end()
 }

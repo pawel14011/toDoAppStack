@@ -1,4 +1,7 @@
-let data = require('../../data/data')
-exports.getAllItems = (req, res) => {
-	res.send(data)
+const { Item } = require('../../../models')
+
+exports.getAllItems = async (req, res) => {
+	const resData = await Item.findAll()
+
+	res.send(resData)
 }

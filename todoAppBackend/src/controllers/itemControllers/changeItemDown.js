@@ -1,19 +1,41 @@
-let data = require('../../data/data')
-exports.changeItemDown = (req, res) => {
+const { Item } = require('../../../models')
+
+exports.changeItemDown = async (req, res) => {
 	const index = parseInt(req.params.index, 10)
 
 	oldData = req.body
 
-	const next = oldData[index + 1]
-	if (next !== undefined) {
-		oldData[index + 1] = oldData[index]
-		oldData[index] = next
+	if (oldData[index + 1] !== undefined) {
+		const next = { ...oldData[index + 1] }
+		const now = { ...oldData[index] }
 
-		data = oldData
+		await Item.update(
+			{
+				value: next.value,
+				finished: next.finished,
+			},
+			{
+				where: {
+					id: now.id,
+				},
+			}
+		)
+		await Item.update(
+			{
+				value: now.value,
+				finished: now.finished,
+			},
+			{
+				where: {
+					id: next.id,
+				},
+			}
+		)
 
-		res.json(data)
-		res.status(200).end()
+		const resData = await Item.findAll()
+
+		res.status(200).send(resData).end()
 	} else {
-		res.json(data)
+		res.json(oldData)
 	}
 }
